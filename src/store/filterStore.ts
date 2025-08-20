@@ -1,11 +1,11 @@
 import { create } from 'zustand'
 
 import { FilterType } from '../shared/api/types/Filter/FilterType'
-import { SearchRequestFilter } from '../shared/api/types/SearchRequest/SearchRequestFilter'
+import { SearchRequestFilters } from '../shared/api/types/SearchRequest/SearchRequestFilter'
 
 interface FilterStore {
-	savedFilters: SearchRequestFilter[]
-	draftFilters: SearchRequestFilter[]
+	savedFilters: SearchRequestFilters
+	draftFilters: SearchRequestFilters
 	setDraftFilter: (id: string, options: string[]) => void
 	applyDraftFilters: () => void
 	resetDraftFilters: () => void

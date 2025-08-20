@@ -1,6 +1,5 @@
 /* eslint-disable i18next/no-literal-string */
 import { useFilterData } from '../hooks/useFilterData'
-import { FilterType } from '../shared/api/types/Filter/FilterType'
 import { useFilterStore } from '../store/filterStore'
 import { useModalStore } from '../store/modalStore'
 import { ConfirmModal } from './ConfirmationModal'
@@ -17,7 +16,6 @@ export const FilterModal = () => {
 		return <p>Error</p>
 	}
 
-	// Дістаємо вибрані optionIds для конкретного фільтра
 	const getSelected = (id: string) =>
 		draftFilters.find(filter => filter.id === id)?.optionsIds || []
 
@@ -28,7 +26,7 @@ export const FilterModal = () => {
 	) => {
 		const selected = new Set(getSelected(filterId))
 		checked ? selected.add(optionId) : selected.delete(optionId)
-		setDraftFilter(filterId, Array.from(selected), FilterType.OPTION)
+		setDraftFilter(filterId, Array.from(selected))
 	}
 
 	return (
@@ -94,9 +92,7 @@ export const FilterModal = () => {
 					</button>
 					<button
 						onClick={() =>
-							draftFilters.forEach(filter =>
-								setDraftFilter(filter.id, [], filter.type)
-							)
+							draftFilters.forEach(filter => setDraftFilter(filter.id, []))
 						}
 						className="text-base underline text-[#078691] hover:text-gray-700"
 					>

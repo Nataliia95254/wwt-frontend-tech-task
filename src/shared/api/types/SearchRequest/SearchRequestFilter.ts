@@ -10,4 +10,5 @@ export interface SearchRequestOptions extends SearchRequestFilterBase {
 	optionsIds: string[]
 }
 
-export type SearchRequestFilter = SearchRequestOptions[]
+export type SearchRequestFilter = SearchRequestOptions
+export type SearchRequestFilters = SearchRequestFilter[]
