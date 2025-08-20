@@ -7,26 +7,12 @@ interface FilterData {
 	filterItems: FilterItem[]
 }
 
-interface UseFilterDataResult {
-	filterItems: FilterItem[]
-	isLoading: boolean
-	isError: boolean
-	error?: unknown
-}
-
-export const useFilterData = (): UseFilterDataResult => {
-	const { data, isLoading, isError, error } = useQuery<FilterData>({
+export const useFilterData = () => {
+	return useQuery<FilterData>({
 		queryKey: ['filterData'],
-		queryFn: async () => filterDataJson as FilterData,
-		staleTime: 1000 * 60 * 5,
-		cacheTime: 1000 * 60 * 10,
-		onError: err => console.error('Failed to load filter data:', err)
+		queryFn: async () => {
+			// Return the imported JSON data directly
+			return filterDataJson as FilterData
+		}
 	})
-
-	return {
-		filterItems: data?.filterItems || [],
-		isLoading,
-		isError,
-		error
-	}
 }

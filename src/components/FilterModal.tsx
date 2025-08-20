@@ -1,11 +1,14 @@
 /* eslint-disable i18next/no-literal-string */
 import { useFilterData } from '../hooks/useFilterData'
+import { FilterType } from '../shared/api/types/Filter/FilterType'
 import { useFilterStore } from '../store/filterStore'
+import { useModalStore } from '../store/modalStore'
+import { ConfirmModal } from './ConfirmationModal'
 
 export const FilterModal = () => {
 	const { data, isLoading, isError } = useFilterData()
-	const { draftFilters, setDraftFilter, resetDraftFilters, clearDraftFilters } =
-		useFilterStore()
+	const { draftFilters, setDraftFilter, resetDraftFilters } = useFilterStore()
+	const { closeFilter, openConfirm } = useModalStore()
 
 	if (isLoading) {
 		return <p>Loading...</p>
@@ -14,6 +17,7 @@ export const FilterModal = () => {
 		return <p>Error</p>
 	}
 
+	// Дістаємо вибрані optionIds для конкретного фільтра
 	const getSelected = (id: string) =>
 		draftFilters.find(filter => filter.id === id)?.optionsIds || []
 
@@ -22,20 +26,23 @@ export const FilterModal = () => {
 		optionId: string,
 		checked: boolean
 	) => {
-		const selected = new Set<string>(getSelected(filterId))
+		const selected = new Set(getSelected(filterId))
 		checked ? selected.add(optionId) : selected.delete(optionId)
-		setDraftFilter(filterId, Array.from(selected))
+		setDraftFilter(filterId, Array.from(selected), FilterType.OPTION)
 	}
 
 	return (
 		<div className="absolute top-0 right-0 left-0 z-50 flex items-center justify-center backdrop-blur-md py-[80px]">
 			<div className="relative w-full max-w-[1220px] bg-white rounded-2xl shadow-lg flex flex-col py-[32px] px-[34px]">
 				{/* Header */}
-				<div className="flex items-center border-b border-[#B4B4B4] pb-[25px]">
+				<div className="flex items-center border-b  border-[#B4B4B4] pb-[25px]">
 					<h2 className="text-4xl text-[#31393C] grow text-center">Filter</h2>
 					<button
 						className="self-center text-[#31393C] hover:text-gray-700 text-2xl"
-						onClick={resetDraftFilters}
+						onClick={() => {
+							resetDraftFilters()
+							closeFilter()
+						}}
 					>
 						✕
 					</button>
@@ -78,15 +85,27 @@ export const FilterModal = () => {
 				</div>
 
 				{/* Footer */}
-				<div className="flex items-center justify-center p-4 space-x-4">
+				<div className="flex items-center justify-center p-4">
 					<button
-						onClick={clearDraftFilters}
+						onClick={openConfirm}
+						className="translate-x-[50%] mx-auto m-8 px-8 py-6 bg-orange-500 text-white rounded-[16px] font-medium hover:bg-orange-600 transition grow max-w-[184px]"
+					>
+						Apply
+					</button>
+					<button
+						onClick={() =>
+							draftFilters.forEach(filter =>
+								setDraftFilter(filter.id, [], filter.type)
+							)
+						}
 						className="text-base underline text-[#078691] hover:text-gray-700"
 					>
 						Clear all parameters
 					</button>
 				</div>
 			</div>
+
+			<ConfirmModal />
 		</div>
 	)
 }
