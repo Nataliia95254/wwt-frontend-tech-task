@@ -1,19 +1,21 @@
-/* eslint-disable i18next/no-literal-string */
+import { useTranslation } from 'react-i18next'
+
 import { useFilterData } from '../hooks/useFilterData'
 import { useFilterStore } from '../store/filterStore'
 import { useModalStore } from '../store/modalStore'
 import { ConfirmModal } from './ConfirmationModal'
 
 export const FilterModal = () => {
+	const { t } = useTranslation()
 	const { data, isLoading, isError } = useFilterData()
 	const { draftFilters, setDraftFilter, resetDraftFilters } = useFilterStore()
 	const { closeFilter, openConfirm } = useModalStore()
 
 	if (isLoading) {
-		return <p>Loading...</p>
+		return <p>{t('common.loading')}</p>
 	}
 	if (isError || !data) {
-		return <p>Error</p>
+		return <p>{t('common.error')}</p>
 	}
 
 	const getSelected = (id: string) =>
@@ -34,7 +36,9 @@ export const FilterModal = () => {
 			<div className="relative w-full max-w-[1220px] bg-white rounded-2xl shadow-lg flex flex-col py-[32px] px-[34px]">
 				{/* Header */}
 				<div className="flex items-center border-b  border-[#B4B4B4] pb-[25px]">
-					<h2 className="text-4xl text-[#31393C] grow text-center">Filter</h2>
+					<h2 className="text-4xl text-[#31393C] grow text-center">
+						{t('filter.title')}
+					</h2>
 					<button
 						className="self-center text-[#31393C] hover:text-gray-700 text-2xl"
 						onClick={() => {
@@ -42,7 +46,7 @@ export const FilterModal = () => {
 							closeFilter()
 						}}
 					>
-						✕
+						{t('common.close')}
 					</button>
 				</div>
 
@@ -88,7 +92,7 @@ export const FilterModal = () => {
 						onClick={openConfirm}
 						className="translate-x-[50%] mx-auto m-8 px-8 py-6 bg-orange-500 text-white rounded-[16px] font-medium hover:bg-orange-600 transition grow max-w-[184px]"
 					>
-						Apply
+						{t('filter.apply')}
 					</button>
 					<button
 						onClick={() =>
@@ -96,7 +100,7 @@ export const FilterModal = () => {
 						}
 						className="text-base underline text-[#078691] hover:text-gray-700"
 					>
-						Clear all parameters
+						{t('filter.clearAll')}
 					</button>
 				</div>
 			</div>
