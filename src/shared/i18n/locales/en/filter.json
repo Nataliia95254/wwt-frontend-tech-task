@@ -1,10 +1,10 @@
 {
-  "title": "Filter",
-  "loading": "Loading...",
-  "error": "Error",
-  "apply": "Apply",
-  "clearAll": "Clear all parameters",
-  "close": "Close",
-  "noFilters": "No filters available",
-  "openFilters": "Open Filters"
+	"title": "Filter",
+	"loading": "Loading...",
+	"error": "Error",
+	"apply": "Apply",
+	"clearAll": "Clear all parameters",
+	"close": "Close",
+	"noFilters": "No filters available",
+	"openFilters": "Open Filters"
 }

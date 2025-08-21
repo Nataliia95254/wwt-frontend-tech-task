@@ -11,7 +11,6 @@ export const useFilterData = () => {
 	return useQuery<FilterData>({
 		queryKey: ['filterData'],
 		queryFn: async () => {
-			// Return the imported JSON data directly
 			return filterDataJson as FilterData
 		}
 	})
